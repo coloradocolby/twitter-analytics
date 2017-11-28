@@ -1,0 +1,15 @@
+.loader {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // fixes bulma overwrites
+   border: none;
+  animation: none;
+}
+
+.loader__image {
+  height: 6rem;
+  width: 6rem;
+}

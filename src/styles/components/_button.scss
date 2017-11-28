@@ -1,0 +1,9 @@
+.bd-tw-button {
+  background-color: #55acee;
+  color: white;
+  border-color: transparent !important;
+  transition: all .3s ease;
+  &:hover {
+    color: white;
+  }
+}
