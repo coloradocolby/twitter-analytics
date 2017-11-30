@@ -23,6 +23,8 @@ class DashboardPage extends Component{
     }).catch((err) => {
       console.log('error', err);
     });
+
+    this.setState(() => ({ status: '' }));
   }
   onStatusChange = (e) => {
     const status = e.target.value;
@@ -39,7 +41,7 @@ class DashboardPage extends Component{
             <h1 className="title">
             What would you like to tweet today, { this.props.user.displayName.split(' ')[0] }?
             </h1>
-            <form onSubmit={this.handleSubmit}>
+            <form className="tweet-form" onSubmit={this.handleSubmit}>
               <textarea 
                 className="textarea" 
                 placeholder="Compose tweet here..."

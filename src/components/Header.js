@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { startLogout } from '../actions/auth';
 
 export const Header = ({ startLogout, userName}) => {
-  const userFirstName = userName.split(' ')[0];
   return (
     <nav className="navbar is-link">
       <div className="navbar-brand">
@@ -25,7 +24,7 @@ export const Header = ({ startLogout, userName}) => {
         
         <div className="navbar-end">
           <a className="navbar-item" onClick={ startLogout }>
-            Logout { userFirstName }
+            Logout { userName.split(' ')[0] }
           </a>
         </div>
 

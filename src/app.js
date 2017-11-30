@@ -41,7 +41,14 @@ const renderApp = () => {
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
-
+  if(user) {
+    console.log('onAuthStateChange w/ user', user);
+  } else {
+    console.log('onAuthStateChange w/o user', user);
+    if (history.location.pathname === '/dashboard') {
+      history.push('/');
+    }
+  }
 });
 
 
