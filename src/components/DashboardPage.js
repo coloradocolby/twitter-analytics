@@ -34,30 +34,29 @@ class DashboardPage extends Component{
 
   render() {
     return (
-      <div className="container">
+      <div className="container animated fadeIn">
       <section className="hero">
         <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-            What would you like to tweet today, { this.props.user.displayName.split(' ')[0] }?
-            </h1>
-            <form className="tweet-form" onSubmit={this.handleSubmit}>
-              <textarea 
-                className="textarea" 
-                placeholder="Compose tweet here..."
-                value={this.state.status}
-                onChange={this.onStatusChange}
-              ></textarea>
-              <button className="bd-tw-button button">
-                <span className="icon">
-                  <i className="fa fa-twitter"></i>
-                </span>
-                <span>
-                  Tweet
-                </span>
-              </button>
-            </form>
-          </div>
+          <h1 className="title">
+          What would you like to tweet today, { this.props.user.displayName.split(' ')[0] }?
+          </h1>
+          <form className="tweet-form" onSubmit={this.handleSubmit}>
+            <textarea 
+              className="textarea is-large" 
+              maxLength="280"
+              placeholder="Compose your tweet here..."
+              value={this.state.status}
+              onChange={this.onStatusChange}
+            ></textarea>
+            <button className="bd-tw-button button">
+              <span className="icon">
+                <i className="fa fa-twitter"></i>
+              </span>
+              <span>
+                Tweet
+              </span>
+            </button>
+          </form>
         </div>
       </section>
     </div>

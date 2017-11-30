@@ -15,14 +15,9 @@ import {configureStore} from './store/configureStore'
 
 const { persistor, store } = configureStore()
 
-// const onBeforeLift = () => {
-//   // take some action before the gate lifts
-// }
-
 const jsx = (
   <Provider store={store}>
     <PersistGate 
-      // onBeforeLift={onBeforeLift}
       persistor={persistor}>
       <AppRouter />
     </PersistGate>
@@ -31,28 +26,27 @@ const jsx = (
 
 let hasRendered = false;
 const renderApp = () => {
-  console.log('renderApp');
   if (!hasRendered) {
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
+    if (history.location.pathname === '/') {
+      history.push('/dashboard');
+    }
   }
 };
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
-  if(user) {
-    console.log('onAuthStateChange w/ user', user);
-  } else {
-    console.log('onAuthStateChange w/o user', user);
+  if(!user) {
+    console.log('logging out');
     if (history.location.pathname === '/dashboard') {
       history.push('/');
     }
   }
 });
 
-
-firebase.auth().getRedirectResult().then(({ user, credential}) => {
+firebase.auth().getRedirectResult().then(({ user, credential }) => {
     // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
     // You can use these server side with your app's credentials to access the Twitter API.
     if (user && credential) {
@@ -60,9 +54,6 @@ firebase.auth().getRedirectResult().then(({ user, credential}) => {
       store.dispatch(storeCredential(credential));
     } 
     renderApp();
-    if (history.location.pathname === '/') {
-      history.push('/dashboard');
-    }
 }).catch(function(error) {
   console.log('error', error);
 });
