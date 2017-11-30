@@ -7,12 +7,27 @@ class DashboardPage extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      ...props
+      ...props,
+      status: ''
     }
   }
   
   handleSubmit = (e) => {
     e.preventDefault();
+    axios.post('http://localhost:3000/api', {
+      accessToken: this.state.credential.accessToken,
+      secret: this.state.credential.secret,
+      status: this.state.status
+    }).then((resp) => {
+      console.log(resp);
+    }).catch((err) => {
+      console.log('error', err);
+    });
+  }
+  onStatusChange = (e) => {
+    const status = e.target.value;
+    this.setState(() => ({ status }));
+    console.log(status);
   }
 
   render() {
@@ -22,10 +37,15 @@ class DashboardPage extends Component{
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
-              Welcome to your dashboard, { this.props.user.displayName.split(' ')[0] }
+            What would you like to tweet today, { this.props.user.displayName.split(' ')[0] }?
             </h1>
             <form onSubmit={this.handleSubmit}>
-              <textarea className="textarea" placeholder="Compose tweet here..."></textarea>
+              <textarea 
+                className="textarea" 
+                placeholder="Compose tweet here..."
+                value={this.state.status}
+                onChange={this.onStatusChange}
+              ></textarea>
               <button className="bd-tw-button button">
                 <span className="icon">
                   <i className="fa fa-twitter"></i>
@@ -38,7 +58,6 @@ class DashboardPage extends Component{
           </div>
         </div>
       </section>
-      <button className="button is-primary" onClick={() => console.log(this.state)}>Get State</button>
     </div>
     )
   }
@@ -46,8 +65,8 @@ class DashboardPage extends Component{
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user,
-  credential: state.credential
+  user: state.auth.user,
+  credential: state.auth.credential
 })
 export default connect(mapStateToProps)(DashboardPage);
 

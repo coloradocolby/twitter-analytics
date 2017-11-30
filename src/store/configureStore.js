@@ -1,12 +1,20 @@
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
+import { persistStore, persistCombineReducers } from 'redux-persist'
+import storage from 'redux-persist/es/storage'
+import authReducer from '../reducers/auth';
 import thunk from 'redux-thunk';
-import reducers from '../reducers/reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default () => {
-  const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk))
-  );
+const config = {
+  key: 'root',
+  storage,
+};
 
-  return store;
+const reducer = persistCombineReducers(config, { auth: authReducer});
+
+export const configureStore = () => {
+  let store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+  let persistor = persistStore(store);
+  return { persistor, store }
 };

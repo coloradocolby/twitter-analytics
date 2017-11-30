@@ -24,30 +24,9 @@ export const Header = ({ startLogout, userName}) => {
         </div>
         
         <div className="navbar-end">
-          <div className="navbar-item">
-            <div className="field is-grouped">
-              <p className="control">
-                <a 
-                  className="bd-tw-button button" 
-                  data-social-network="Twitter" 
-                  data-social-action="tweet" 
-                  data-social-target="http://localhost:4000" 
-                  target="_blank" 
-                  href="https://twitter.com/intent/tweet?text=Having some fun reviewing some Twitter Analytics!&amp;hashtags=twitteranalytics&amp;url=https://www.twitteranalytics.com&amp;via=coloradocolby"
-                >
-                  <span className="icon">
-                    <i className="fa fa-twitter"></i>
-                  </span>
-                  <span>
-                    Tweet
-                  </span>
-                </a>
-              </p>
-            </div>
-          </div>
-          <div className="navbar-item">
-            <button className="button is-primary" onClick={ startLogout }>Logout { userFirstName }</button>
-          </div>
+          <a className="navbar-item" onClick={ startLogout }>
+            Logout { userFirstName }
+          </a>
         </div>
 
 
@@ -57,7 +36,7 @@ export const Header = ({ startLogout, userName}) => {
 };
 
 const mapStateToProps = (state) => ({
-  userName: state.user.displayName
+  userName: state.auth.user.displayName
 });
 
 const mapDispatchToProps = (dispatch) => ({
