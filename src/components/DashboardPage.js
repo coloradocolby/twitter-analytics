@@ -26,8 +26,8 @@ export const DashboardPage = ({ userObj, userName }) => {
 };
 
 const mapStateToProps = (state) => ({
-  userObj: state.auth.user,
-  userName: state.auth.user.displayName
+  userObj: state.user,
+  userName: state.user.displayName
 })
 export default connect(mapStateToProps)(DashboardPage);
 

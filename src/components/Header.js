@@ -57,7 +57,7 @@ export const Header = ({ startLogout, userName}) => {
 };
 
 const mapStateToProps = (state) => ({
-  userName: state.auth.user.displayName
+  userName: state.user.displayName
 });
 
 const mapDispatchToProps = (dispatch) => ({

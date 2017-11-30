@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import configureStore from './store/configureStore';
-import { login, logout } from './actions/auth';
+import { login, logout, storeCredential } from './actions/auth';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
@@ -16,6 +16,7 @@ const jsx = (
     <AppRouter />
   </Provider>
 );
+
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
@@ -27,32 +28,24 @@ const renderApp = () => {
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
-  console.log('auth state change', user);
-  if (user) {
-    user.getIdToken().then(function(idToken) {
-      console.log('idToken', idToken);
-    });
-    store.dispatch(login(user));
-    console.log('twitter user', user);
+  console.log('onAuthStateChanged', user);
+});
+
+firebase.auth().getRedirectResult().then(function(result) {
+  if (result.credential && result.user) {
+    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+    // You can use these server side with your app's credentials to access the Twitter API.
+    store.dispatch(login(result.user));
+    store.dispatch(storeCredential(result.credential));
     renderApp();
     if (history.location.pathname === '/') {
       history.push('/dashboard');
     }
-  } else {
+  }
+  else {
     store.dispatch(logout());
     renderApp();
     history.push('/');
-  }
-});
-
-firebase.auth().getRedirectResult().then(function(result) {
-  if (result.credential) {
-    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-    // You can use these server side with your app's credentials to access the Twitter API.
-    var token = result.credential.accessToken;
-    var secret = result.credential.secret;
-    // ...
-    console.log('token', token, 'secret', secret);
   }
   // The signed-in user info.
   var user = result.user;
