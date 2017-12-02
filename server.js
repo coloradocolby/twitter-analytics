@@ -1,28 +1,27 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const axios = require('axios');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const request = require('request');
-const OAuth = require('oauth-1.0a');
-const crypto = require('crypto');
+const  OAuth = require('oauth');
+const KLOUT_API_KEY = 'kypu6egrv58jj3nqrgdaqzpr';
+const TWITTER_API_KEY = 'xdYO8VBEkBcUGMCJZHYRIyXmi';
+const TWITTER_API_SECRET = '84kGGaVYE4LKU4TgkNLVd7KjBGGSvUnaadYfbeS4hIMXIsC4PO';
 
-const oauth = OAuth({
-  consumer: {
-    // consumer key for byu-twitter-analytics
-    key: 'xdYO8VBEkBcUGMCJZHYRIyXmi',
-    // consumer seceret for byu-twitter-analytics 
-    secret: '84kGGaVYE4LKU4TgkNLVd7KjBGGSvUnaadYfbeS4hIMXIsC4PO' 
-  },
-  signature_method: 'HMAC-SHA1',
-  hash_function: function (base_string, key) {
-    return crypto.createHmac('sha1', key).update(base_string).digest('base64');
-  }
-});
+const oauth = new OAuth.OAuth(
+  'https://api.twitter.com/oauth/request_token',
+  'https://api.twitter.com/oauth/access_token',
+  TWITTER_API_KEY,
+  TWITTER_API_SECRET,
+  '1.0A',
+  null,
+  'HMAC-SHA1'
+);
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -42,30 +41,44 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(path.join(__dirname, '..', 'public', 'index.html')));
+app.post('/api/tweet', (req, res) => {
+  oauth.post(
+    `https://api.twitter.com/1.1/statuses/update.json`,
+    req.body.accessToken, //test user token
+    req.body.secret, //test user secret
+    { status: req.body.status }, // data
+    (e, data, response) => {
+      if (e) console.error(e);
+      res.json(data);
+    });  
 });
 
-app.post('/api', (req, res) => {
-  const request_data = {
-    url: 'https://api.twitter.com/1.1/statuses/update.json',
-    method: 'POST',
-    data: {
-      status: req.body.status
-    }
-  };
-  const token = {
-    key: req.body.accessToken,
-    secret: req.body.secret
-  };
-  request({
-    url: request_data.url,
-    method: request_data.method,
-    form: oauth.authorize(request_data, token)
-  }, (error, response, body) => {
-    //process your data here
-    res.json(body);
-  });
+app.post('/api/user', (req, res) => {
+  oauth.get(
+    `https://api.twitter.com/1.1/users/lookup.json?user_id=${req.body.uid}`,
+    req.body.accessToken, //test user token 
+    req.body.secret, //test user secret             
+    function (e, data, response){
+      if (e) console.error(e);     
+      res.json(data);
+    });    
+});
+
+app.post('/api/klout', (req, res) => {
+  const { screen_name } = req.body;
+  axios.get(`http://api.klout.com/v2/identity.json/twitter/?key=${KLOUT_API_KEY}&screenName=${screen_name}`)
+    .then((resp) => {
+      const { id } = resp.data;
+      axios.get(`http://api.klout.com/v2/user.json/${id}/score?key=${KLOUT_API_KEY}`)
+        .then((resp) => {
+          console.log(resp.data);
+          res.json(resp.data);
+        });
+    });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(path.join(__dirname, 'public', 'index.html')));
 });
 
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
+@import '~bulma/bulma.sass';
 @import './base/settings';
 @import './base/base';
-@import '~bulma/bulma.sass';
 @import './components/depth';
 @import './components/loader';
 @import './components/navbar';
@@ -9,4 +9,7 @@
 @import './components/form';
 @import './components/hero';
 @import './components/header';
+@import './components/modal';
+@import './components/notification';
+@import './components/level';
 

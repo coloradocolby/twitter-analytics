@@ -6,4 +6,13 @@
   &:hover {
     color: white;
   }
+  &:focus {
+    color: white;
+  }
+}
+
+.button {
+  &:active {
+    color: white;
+  }
 }

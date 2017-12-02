@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default () => (
-  <div className="container animated fadeIn">
+  <div className="container">
     <section className="hero">
       <div className="hero-body">
         <div className="container">
