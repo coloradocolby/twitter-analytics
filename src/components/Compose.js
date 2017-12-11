@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Modal from './Modal';
 import LoadingPage from './LoadingPage';
 
-class DashboardPage extends Component{
-
+class Compose extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -21,10 +21,9 @@ class DashboardPage extends Component{
       favourites_count: null,
       statuses_count: null,
       klout_score: null,
-      is_ready: false
+      is_ready: true
     }
   }
-
   componentDidMount() {
     // GET USERS TWITTER INFO
     axios.post('http://localhost:3000/api/user', {
@@ -49,18 +48,17 @@ class DashboardPage extends Component{
       }));
       // GET USER KLOUT SCORE
       axios.post('http://localhost:3000/api/klout', {
-        screenName: screen_name
+        screenName: this.state.screen_name
       }).then((resp) => {
         const klout_score = resp.data.score;
+        console.log(klout_score);
         this.setState(() => ({
           klout_score: Math.round(klout_score),
           is_ready: true
         }));
-
       });
     });
   }
-
   handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3000/api/tweet', {
@@ -90,11 +88,8 @@ class DashboardPage extends Component{
           }));
         }
       }
-
     })
-
   }
-
   onStatusChange = (e) => {
     const status = e.target.value;
     this.setState(() => ({ 
@@ -102,11 +97,9 @@ class DashboardPage extends Component{
       charactersUsed: status.length
     }));
   }
-
   handleToggleModal = () => {
     this.setState((prevState) => ({ toggleModal: !prevState.toggleModal }));
   }
-
   render() {
     const { 
       screen_name, 
@@ -121,7 +114,6 @@ class DashboardPage extends Component{
       klout_score,
       is_ready
     } = this.state;
-
     if(!is_ready){
       return (
         <LoadingPage />
@@ -151,6 +143,7 @@ class DashboardPage extends Component{
                     Tweet
                   </span>
                 </button>
+                <Link className="button is-twitter adjust-button" to="/adjust">Analyze</Link>
               </form>
             </div>
             <nav className="level">
@@ -175,7 +168,7 @@ class DashboardPage extends Component{
               <div className="level-item has-text-centered animated fadeInDown delay3">
               <div>
                 <p className="heading">Klout</p>
-                <p className="title">{ klout_score }</p>
+                <p className="title">{ klout_score || "n/a" }</p>
               </div>
             </div>
             </nav>
@@ -189,20 +182,18 @@ class DashboardPage extends Component{
         </div>
       );
     }
-
   }
- 
 };
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   credential: state.auth.credential
 })
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps)(Compose);
 
 
-// <button className="button is-link" onClick={this.handleToggleModal}>Modal</button>
-// <button className="button is-link" onClick={() => console.log(user)}>Get User</button>
+// <button className="button is-twitter" onClick={this.handleToggleModal}>Modal</button>
+// <button className="button is-twitter" onClick={() => console.log(user)}>Get User</button>
 
 
 // <div className="level-item has-text-centered">

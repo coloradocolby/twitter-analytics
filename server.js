@@ -65,13 +65,12 @@ app.post('/api/user', (req, res) => {
 });
 
 app.post('/api/klout', (req, res) => {
-  const { screen_name } = req.body;
-  axios.get(`http://api.klout.com/v2/identity.json/twitter/?key=${KLOUT_API_KEY}&screenName=${screen_name}`)
+  const { screenName } = req.body;
+  axios.get(`http://api.klout.com/v2/identity.json/twitter/?key=${KLOUT_API_KEY}&screenName=${screenName}`)
     .then((resp) => {
       const { id } = resp.data;
       axios.get(`http://api.klout.com/v2/user.json/${id}/score?key=${KLOUT_API_KEY}`)
         .then((resp) => {
-          console.log(resp.data);
           res.json(resp.data);
         });
     });

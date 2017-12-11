@@ -16,7 +16,7 @@ class Header extends Component {
       <div>
         <nav className="navbar is-link">
           <div className="navbar-brand">
-            <Link className="navbar-item" to="/dashboard">
+            <Link className="navbar-item" to="/compose">
               <h1 className="title is-3">Twitter Analytics</h1>
             </Link>
             <div 
@@ -31,7 +31,7 @@ class Header extends Component {
           </div>
           <div id="navbar" className={`navbar-menu ${ this.state.navIsOpen ? 'is-active' : '' }`}>
             <div className="navbar-start">
-              <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active" exact={true}>Dashboard</NavLink>
+              <NavLink to="/compose" className="navbar-item" activeClassName="is-active" exact={true}>Compose</NavLink>
               <NavLink to="/contact" className="navbar-item" activeClassName="is-active">Contact</NavLink>
             </div>
             <div className="navbar-end">

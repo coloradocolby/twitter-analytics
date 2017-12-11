@@ -20,3 +20,9 @@ button {
 button:disabled {
   cursor: default;
 }
+
+.is-twitter {
+  background: $twitter-blue;
+  border: none;
+  color: white;
+}

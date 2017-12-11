@@ -7,6 +7,8 @@ import { firebase } from './firebase/firebase';
 import { login, logout, storeCredential } from './actions/auth';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
+
+import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 import { PersistGate } from 'redux-persist/es/integration/react'
@@ -17,8 +19,7 @@ const { persistor, store } = configureStore()
 
 const jsx = (
   <Provider store={store}>
-    <PersistGate 
-      persistor={persistor}>
+    <PersistGate persistor={persistor}>
       <AppRouter />
     </PersistGate>
   </Provider>
@@ -30,7 +31,7 @@ const renderApp = () => {
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
     if (history.location.pathname === '/') {
-      history.push('/dashboard');
+      history.push('/compose');
     }
   }
 };
@@ -39,8 +40,7 @@ ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
   if(!user) {
-    console.log('logging out');
-    if (history.location.pathname === '/dashboard') {
+    if (history.location.pathname === '/compose') {
       history.push('/');
     }
   }
