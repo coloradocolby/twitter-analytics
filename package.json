@@ -1,7 +1,6 @@
 {
-  "name": "twitter",
+  "name": "twitter-analytics",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Colby Thomas",
   "license": "MIT",
   "scripts": {
