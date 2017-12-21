@@ -16,3 +16,12 @@
     margin: $s-size 0;
   }
 }
+.time-container {
+  display: flex;
+  justify-content: flex-start;
+  
+  .Select {
+    margin: 10px 10px 10px 0;
+    width: 150px;
+  }
+}

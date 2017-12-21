@@ -6,10 +6,13 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const  OAuth = require('oauth');
+const OAuth = require('oauth');
 const KLOUT_API_KEY = 'kypu6egrv58jj3nqrgdaqzpr';
 const TWITTER_API_KEY = 'xdYO8VBEkBcUGMCJZHYRIyXmi';
 const TWITTER_API_SECRET = '84kGGaVYE4LKU4TgkNLVd7KjBGGSvUnaadYfbeS4hIMXIsC4PO';
+
+const AZURE_BASE_URL = 'https://ussouthcentral.services.azureml.net/workspaces/bd39a7990aaf493a907d342d33ef4ebb/services/8e991af4cbba45efa88bc068b03a48b0/execute?api-version=2.0&details=true'
+const AZURE_API_KEY = 'rekPpawPRsFasH+Jbkxe9KG9KuBaAILpoGxxZqPHUVH2qrLTWX4DlZsxvOV4pwPcqREeooaAttZJhYfW/DQT+Q==';
 
 const oauth = new OAuth.OAuth(
   'https://api.twitter.com/oauth/request_token',
@@ -74,6 +77,35 @@ app.post('/api/klout', (req, res) => {
           res.json(resp.data);
         });
     });
+});
+
+app.post('/api/analyze', (req, res) => {
+  console.log(req.body);
+  axios({
+    method:'POST',
+    url: AZURE_BASE_URL,
+    headers: {
+      'Authorization': `Bearer ${AZURE_API_KEY}`
+    },
+    data: {
+      "Inputs": {
+        "twitter_analytics_input": {
+          "ColumnNames": [
+            "Day",
+            "Hour",
+            "RetweetCount",
+            "Klout",
+            "text"
+          ],
+          "Values": [ req.body.data ] // the array of data sent to API
+        }
+      },
+      "GlobalParameters": {}
+    }
+  }).then((resp) => {
+    const predictedRetweet = parseFloat(resp.data.Results.twitter_analytics_output.value.Values[0][0]);
+    res.json(predictedRetweet);
+  });
 });
 
 app.get('*', (req, res) => {

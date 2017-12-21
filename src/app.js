@@ -31,7 +31,7 @@ const renderApp = () => {
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
     if (history.location.pathname === '/') {
-      history.push('/compose');
+      history.push('/dashboard');
     }
   }
 };
@@ -40,7 +40,7 @@ ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
   if(!user) {
-    if (history.location.pathname === '/compose') {
+    if (history.location.pathname === '/dashboard') {
       history.push('/');
     }
   }

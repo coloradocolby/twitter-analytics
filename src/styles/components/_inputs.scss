@@ -14,3 +14,11 @@
   @extend .text-input;
   height: 10rem;
 }
+
+.time-container {
+  display: flex;
+  justify-content: space-around;
+  .select-time {
+    color: black !important;
+  }
+}

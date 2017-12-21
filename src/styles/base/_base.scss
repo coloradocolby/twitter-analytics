@@ -9,8 +9,8 @@ html, body {
 
 body {
   font-family: Helvetica, Arial, sans-serif;
-  color: #fff;
   background: #262626;
+  color: #fff;
 }
 
 button {
@@ -25,4 +25,11 @@ button:disabled {
   background: $twitter-blue;
   border: none;
   color: white;
+}
+
+.send-tweet-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
 }
