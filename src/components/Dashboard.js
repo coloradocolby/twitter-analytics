@@ -57,7 +57,7 @@ class Dashboard extends Component{
     selectedTime ? this.setState( () => ({ selectedTime: selectedTime.value })) : this.setState(() => ({ selectedTime: '' })); 
   }
   componentDidMount() {
-    axios.post('/api/user', {
+    axios.post('http://localhost:8000/api/user', {
       accessToken: this.state.credential.accessToken,
       secret: this.state.credential.secret,
       uid: this.state.user.providerData[0].uid
@@ -78,7 +78,7 @@ class Dashboard extends Component{
         favourites_count
       }));
       // GET USER KLOUT SCORE
-      axios.post('/api/klout', {
+      axios.post('http://localhost:8000/api/klout', {
         screenName: this.state.screen_name
       }).then((resp) => {
         const klout_score = resp.data.score;
@@ -96,7 +96,7 @@ class Dashboard extends Component{
   handleTweet = () => {
 
     const { credential, tweet } = this.state;
-    axios.post('/api/tweet', {
+    axios.post('http://localhost:8000/api/tweet', {
       accessToken: credential.accessToken,
       secret: credential.secret,
       status: tweet
@@ -155,80 +155,77 @@ class Dashboard extends Component{
       );
     } else {
       return (
-        <div className="container">
+        <div id="dashboard" className="container">
           <section className="hero">
             <div className="hero-body">
-              <div className="container">
-                <h1 className="title">
-                  Welcome, { screen_name }
-                </h1>
-                <form className="tweet-form" onSubmit={this.handleSubmit}>
-                  <div className="time-container">
-                    <Select
-                      name="select-day"
-                      placeholder="Select a day"
-                      value={this.state.selectedDay}
-                      onChange={this.handleDayChange}
-                      required
-                      options={[
-                        { value: 'Monday', label: 'Monday' },
-                        { value: 'Tuesday', label: 'Tuesday' },
-                        { value: 'Wednesday', label: 'Wednesday' },
-                        { value: 'Thursday', label: 'Thursday' },
-                        { value: 'Friday', label: 'Friday' },
-                        { value: 'Saturday', label: 'Saturday' },
-                        { value: 'Sunday', label: 'Sunday' }
-                      ]}
-                    />
-                    <Select
-                      name="select-time"
-                      placeholder="Select a time"
-                      value={this.state.selectedTime}
-                      onChange={this.handleTimeChange}
-                      required
-                      options={[
-                        { value: '0', label: '12 am' },
-                        { value: '1', label: '1 am' },
-                        { value: '2', label: '2 am' },
-                        { value: '3', label: '3 am' },
-                        { value: '4', label: '4 am' },
-                        { value: '5', label: '5 am' },
-                        { value: '6', label: '6 am' },
-                        { value: '7', label: '7 am' },
-                        { value: '8', label: '8 am' },
-                        { value: '9', label: '9 am' },
-                        { value: '10', label: '10 am' },
-                        { value: '11', label: '11 am' },
-                        { value: '12', label: '12 pm' },
-                        { value: '13', label: '1 pm' },
-                        { value: '14', label: '2 pm' },
-                        { value: '15', label: '3 pm' },
-                        { value: '16', label: '4 pm' },
-                        { value: '17', label: '5 pm' },
-                        { value: '18', label: '6 pm' },
-                        { value: '19', label: '7 pm' },
-                        { value: '20', label: '8 pm' },
-                        { value: '21', label: '9 pm' },
-                        { value: '22', label: '10 pm' },
-                        { value: '23', label: '11 pm' },
-                      ]}
-                    />
-                  </div>
-                  <textarea 
-                    className="textarea is-large" 
-                    placeholder="Compose your tweet here..."
-                    maxLength="280"
-                    value={this.state.tweet}
-                    onChange={this.onTweetChange}
-                    required
-                  ></textarea>
-                  <p>{ charactersUsed }/280</p>
-                 <button className="is-success button" onClick={this.analyze}>Analyze</button>
-                </form>
-                
-              </div>
+              <h1 className="title">Welcome, { screen_name }!</h1>
+              <h1 className="subtitle">Let's analyze some tweets</h1>
             </div>
+            <form className="tweet-form" onSubmit={this.handleSubmit}>
+              <div className="time-container">
+                <Select
+                  name="select-day"
+                  placeholder="Select a day"
+                  value={this.state.selectedDay}
+                  onChange={this.handleDayChange}
+                  required
+                  options={[
+                    { value: 'Monday', label: 'Monday' },
+                    { value: 'Tuesday', label: 'Tuesday' },
+                    { value: 'Wednesday', label: 'Wednesday' },
+                    { value: 'Thursday', label: 'Thursday' },
+                    { value: 'Friday', label: 'Friday' },
+                    { value: 'Saturday', label: 'Saturday' },
+                    { value: 'Sunday', label: 'Sunday' }
+                  ]}
+                />
+                <Select
+                  name="select-time"
+                  placeholder="Select a time"
+                  value={this.state.selectedTime}
+                  onChange={this.handleTimeChange}
+                  required
+                  options={[
+                    { value: '0', label: '12 am' },
+                    { value: '1', label: '1 am' },
+                    { value: '2', label: '2 am' },
+                    { value: '3', label: '3 am' },
+                    { value: '4', label: '4 am' },
+                    { value: '5', label: '5 am' },
+                    { value: '6', label: '6 am' },
+                    { value: '7', label: '7 am' },
+                    { value: '8', label: '8 am' },
+                    { value: '9', label: '9 am' },
+                    { value: '10', label: '10 am' },
+                    { value: '11', label: '11 am' },
+                    { value: '12', label: '12 pm' },
+                    { value: '13', label: '1 pm' },
+                    { value: '14', label: '2 pm' },
+                    { value: '15', label: '3 pm' },
+                    { value: '16', label: '4 pm' },
+                    { value: '17', label: '5 pm' },
+                    { value: '18', label: '6 pm' },
+                    { value: '19', label: '7 pm' },
+                    { value: '20', label: '8 pm' },
+                    { value: '21', label: '9 pm' },
+                    { value: '22', label: '10 pm' },
+                    { value: '23', label: '11 pm' },
+                  ]}
+                />
+              </div>
+              <textarea 
+                className="textarea is-large" 
+                placeholder="Compose your tweet here..."
+                maxLength="280"
+                value={this.state.tweet}
+                onChange={this.onTweetChange}
+                required
+              ></textarea>
+              <p>{ charactersUsed }/280</p>
+              <button className="is-success button" onClick={this.analyze}>Analyze</button>
+            </form>
           </section>
+
           <div className="send-tweet-container">
             <h4 className="is-size-4">Satisfied with your score?</h4>
             <button className="bd-tw-button button" onClick={this.handleTweet}>
@@ -262,8 +259,6 @@ class Dashboard extends Component{
               </div>
             </div>
           </nav>
-
-
           <Modal 
             message={modalMessage}
             toggleModal={toggleModal}

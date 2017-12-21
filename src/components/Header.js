@@ -32,7 +32,7 @@ class Header extends Component {
           <div id="navbar" className={`navbar-menu ${ this.state.navIsOpen ? 'is-active' : '' }`}>
             <div className="navbar-start">
               <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active" exact={true}>Dashboard</NavLink>
-              <NavLink to="/contact" className="navbar-item" activeClassName="is-active">Contact</NavLink>
+              <a href="http://www.coloradocolby.com/capstone" className="navbar-item">Visualize</a>
             </div>
             <div className="navbar-end">
               <a className="navbar-item" onClick={ startLogout }>

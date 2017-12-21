@@ -5,7 +5,7 @@ const axios = require('axios');
 const PORT = process.env.PORT || 8000;
 
 const app = express();
-console.log(process.env);
+
 const OAuth = require('oauth');
 const KLOUT_API_KEY = 'kypu6egrv58jj3nqrgdaqzpr';
 const TWITTER_API_KEY = 'xdYO8VBEkBcUGMCJZHYRIyXmi';
