@@ -1,6 +1,8 @@
 # twitter-analytics
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/coloradocolby/twitter-analytics/blob/master/LICENSE)
 
+![demo](https://github.com/coloradocolby/twitter-analytics/blob/master/public/images/demo.gif)
+
 ## Demo
 https://cc-twitteranalytics.herokuapp.com
 
