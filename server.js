@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 console.log(process.env);
