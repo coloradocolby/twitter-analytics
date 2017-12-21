@@ -38,7 +38,7 @@ class Dashboard extends Component{
   }
   analyze = () => {
     const { tweet, selectedDay, selectedTime, klout_score } = this.state;
-    axios.post('http://localhost:3000/api/analyze', {
+    axios.post('/api/analyze', {
       data: [ selectedDay, selectedTime, '0', klout_score ? klout_score : '0', tweet ]
     }).then((resp) => {
       console.log(resp.data);
@@ -57,7 +57,7 @@ class Dashboard extends Component{
     selectedTime ? this.setState( () => ({ selectedTime: selectedTime.value })) : this.setState(() => ({ selectedTime: '' })); 
   }
   componentDidMount() {
-    axios.post('http://localhost:3000/api/user', {
+    axios.post('/api/user', {
       accessToken: this.state.credential.accessToken,
       secret: this.state.credential.secret,
       uid: this.state.user.providerData[0].uid
@@ -78,7 +78,7 @@ class Dashboard extends Component{
         favourites_count
       }));
       // GET USER KLOUT SCORE
-      axios.post('http://localhost:3000/api/klout', {
+      axios.post('/api/klout', {
         screenName: this.state.screen_name
       }).then((resp) => {
         const klout_score = resp.data.score;
@@ -96,7 +96,7 @@ class Dashboard extends Component{
   handleTweet = () => {
 
     const { credential, tweet } = this.state;
-    axios.post('http://localhost:3000/api/tweet', {
+    axios.post('/api/tweet', {
       accessToken: credential.accessToken,
       secret: credential.secret,
       status: tweet
