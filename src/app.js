@@ -8,9 +8,6 @@ import { login, logout, storeCredential } from './actions/auth';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
-
 import { PersistGate } from 'redux-persist/es/integration/react'
 
 import {configureStore} from './store/configureStore'
